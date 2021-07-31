@@ -10,9 +10,11 @@ Functionalitis are:
 
 Folder structure:
 - Contact Info component contains all operations.  /src/app/contact-info
-- contact API service  /src/contact.service.ts
+- Contact API service  /src/contact.service.ts
 - Data service       /src/data.service.ts
 - contact modal   /src/contact-info.ts
+
+
 To create a backend-less application by mocking a REST API angular's angular-in-memory-web-api module is used.
 
 The angular-in-memory-web-api module provides an in memory data store where you can create and fetch data and simulates a real REST API back-end. It intercepts Angular HttpClient requests that would otherwise go to the remote server and redirects them to an in-memory data store that you control.
