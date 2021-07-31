@@ -1,0 +1,124 @@
+
+  <div class="container-fluid px-sm-5 py-sm-5 py-4">
+    <div class="row filter">
+      <div class="col-xl-10 col-sm-9  mb-3">
+        <h1 class="mb-0">Contact Information</h1>
+      </div>
+      <div class="col-sm-12">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body">
+            <div class="col-sm-12 pb-3">
+              <button class="btn btn-secondary shadow pull-right mb-2 font-weight-bold" (click)="addContact()">Add
+                Contact</button>
+            </div>
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Status</th>
+                  <th class="col-action pr-sm-4" scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of contactInfo let i=index">
+                  <td class="align-middle">{{ i +1 }}</td>
+                  <td class="align-middle">{{item.firstname | titlecase}}</td>
+                  <td class="align-left">{{item.lastname | titlecase}}</td>
+                  <td class="align-left">{{item.email}}</td>
+                  <td class="align-middle">{{item.phone}}</td>
+                  <td class="align-middle">
+                    <label class="switch">
+                      <input type="checkbox" [checked]="item.status=='true'" (change)="changeStatus(item,$event)">
+                      <span class="slider round"></span>
+                    </label>
+                  </td>
+                  <td data-label="Action" class="text-right pr-sm-4">
+                    <button class="btn btn-secondary shadow btn-sm mr-2" title="Edit" (click)="editContact(item.id)"><i
+                        class="fa fa-edit"></i></button>
+                    <button class="btn btn-danger shadow btn-sm" title="Delete" (click)="deleteContact(item.id)"><i
+                        class="fa fa-trash"></i></button>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #mymodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">{{title}}</h4>
+      <a class="close close-modal pointer" (click)="close()">&times;</a>
+    </div>
+    <div class="modal-body">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body">
+          <form [formGroup]="addContactForm" (ngSubmit)="onSubmit()">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <input type="text" class="form-control inputBox" placeholder="First Name*" formControlName="firstName"
+                  [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
+                <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                  <div *ngIf="f.firstName.errors.required">Please enter First Name</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div class="form-group">
+                <input type="text" class="form-control inputBox" placeholder="Last Name*" formControlName="lastName"
+                  [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
+                <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                  <div *ngIf="f.lastName.errors.required">Please enter Last Name</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div class="form-group">
+                <input type="text" class="form-control inputBox" placeholder="Phone Number" formControlName="phoneNumber"
+                  [ngClass]="{ 'is-invalid': submitted && f.phoneNumber.errors }">
+                <div *ngIf="submitted && f.phoneNumber.errors" class="invalid-feedback">
+                  <div *ngIf="f.phoneNumber.errors.required">Please enter Phone Number</div>
+                  <div *ngIf="f.phoneNumber.errors.pattern">Please enter 10 digit Phone Number</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <label class="mr-2">Status</label>
+              <label>
+                <input type="radio" value="true" formControlName="status">
+                <span class="ml-1">Active</span>
+              </label>
+              <label class="ml-2">
+                <input type="radio" value="false" formControlName="status">
+                <span class="ml-1">Inactive</span>
+              </label>
+            </div>
+            <div class="col-sm-12">
+              <div class="form-group">
+                <input type="text" class="form-control inputBox" placeholder="Email*" formControlName="email"
+                  [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                  <div *ngIf="f.email.errors.required">Please enter Email Id</div>
+                  <div *ngIf="f.email.errors.email">Please enter valid Email Id</div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group mt-3">
+                  <button type="submit" class="btn btn-warning btn-block">{{(title=='Edit
+                    Contact')?'Update':title}}</button>
+                </div>
+              </div>
+            </div>
+          </form>
+  
+        </div>
+      </div>
+    </div>
+  
+  </ng-template>
