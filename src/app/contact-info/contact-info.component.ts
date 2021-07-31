@@ -91,6 +91,7 @@ export class ContactInfoComponent implements OnInit {
       return;
     }
     this.spinner.show();
+    //if current action is Edit Contact then take id form submitted id. And if action is Add Contact then take last id value and +1 in that to get unique id.
     let id = this.title == 'Edit Contact' ? this.f.id.value : this.contactInfo[this.contactInfo.length - 1]['id'] + 1;
     let ContactInfo = { id: id, firstname: this.f.firstName.value, lastname: this.f.lastName.value, phone: this.f.phoneNumber.value, email: this.f.email.value, status: this.f.status.value };
     this.contactService.createContact(ContactInfo, this.title).subscribe((data: any) => {
