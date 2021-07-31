@@ -11,8 +11,12 @@ import { ContactService } from '../contact.service';
   styleUrls: ['./contact-info.component.scss']
 })
 export class ContactInfoComponent implements OnInit {
-  title = "Add Contact";
+
   @ViewChild("mymodal", { read: TemplateRef, static: true }) modalContent: TemplateRef<any>;
+
+  //default title for popup
+  title = "Add Contact";
+
   modalOptions: NgbModalOptions;
   submitted: boolean = false
   modalRef;
@@ -24,6 +28,8 @@ export class ContactInfoComponent implements OnInit {
     private modalService: NgbModal,
     private spinner: NgxSpinnerService,
   ) {
+
+    //form declaration for add/edit.
     this.addContactForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -32,19 +38,27 @@ export class ContactInfoComponent implements OnInit {
       status: ["true", Validators.required],
       id: ['']
     });
+
+    //override default modal options
     this.modalOptions = {
       backdrop: 'static',
       backdropClass: 'customBackdrop',
-      windowClass: 'add-user-modal',
       size: 'md',
       keyboard: false
     }
   }
 
+  /**
+     * Init default function.
+     * @auther Rohit L.
+   */
   ngOnInit() {
     this.getContactList();
   }
-
+  /**
+       * get contact listing.
+       * @auther Rohit L.
+     */
   getContactList() {
     this.spinner.show();
     this.contactService.getContacts().subscribe((data: any[]) => {
@@ -54,17 +68,25 @@ export class ContactInfoComponent implements OnInit {
   }
 
 
-
+  // getter for easy access to contact form fields.
   get f() {
     return this.addContactForm.controls;
   }
-
+  /**
+     *open popup for add contact.
+     * @auther Rohit L.
+   */
   addContact() {
     this.title = 'Add Contact';
     this.openContactPopup();
   }
+  /**
+    * Submit add/edit contact form.
+    * @auther Rohit L.
+  */
   onSubmit() {
     this.submitted = true;
+    //return if form is invalid
     if (this.addContactForm.invalid) {
       return;
     }
@@ -81,6 +103,11 @@ export class ContactInfoComponent implements OnInit {
     });
   }
 
+  /**
+    *Contact details for provided id.
+    * @param id - Request contact id
+    * @auther Rohit L.
+  */
   editContact(id) {
     this.spinner.show();
     this.contactService.getContact(id).subscribe((data: ContactInfo) => {
@@ -101,6 +128,11 @@ export class ContactInfoComponent implements OnInit {
       this.spinner.hide();
     });
   }
+  /**
+    *Delete contact for provided id.
+    * @param id - Request contact id
+    * @auther Rohit L.
+  */
   public deleteContact(contactId) {
     if (confirm('Are you sure you want to delete this contact?')) {
       this.contactService.deleteContact(contactId).subscribe((ret) => {
@@ -110,7 +142,12 @@ export class ContactInfoComponent implements OnInit {
     }
 
   }
-
+/**
+    * Update status for provided id and status.
+    * @param id - Request contact id
+    * @param status - Request contact status
+    * @auther Rohit L.
+  */
   changeStatus(contact: ContactInfo, event) {
     let status = event.target.checked ? "true" : "false";
     contact.status = status
@@ -127,7 +164,10 @@ export class ContactInfoComponent implements OnInit {
   openContactPopup() {
     this.modalRef = this.modalService.open(this.modalContent, this.modalOptions);
   }
-
+/**
+    * Close contact popup and reset contact form.
+    * @auther Rohit L.
+  */
   close() {
     this.submitted = false;
     this.addContactForm.reset({ status: "true" });

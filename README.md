@@ -1,9 +1,19 @@
 # Angular
 
-This is a project contains CRUD operation on contact information of a person with fields First Name, Last Name, Email, Phone Number and Status.
-Angular 8 version is used to create this operation.
+This is a project application for maintaining contact information build with Angular 8+.
 
-TO create a backend-less application by mocking a REST API angular's angular-in-memory-web-api module is used.
+Functionalitis are:
+- List contacts
+- Add a contact
+- Edit contact
+- Delete/Inactive a contact
+
+Folder structure:
+- Contact Info component contains all operations.  /src/app/contact-info
+- contact API service  /src/contact.service.ts
+- Data service       /src/data.service.ts
+- contact modal   /src/contact-info.ts
+To create a backend-less application by mocking a REST API angular's angular-in-memory-web-api module is used.
 
 The angular-in-memory-web-api module provides an in memory data store where you can create and fetch data and simulates a real REST API back-end. It intercepts Angular HttpClient requests that would otherwise go to the remote server and redirects them to an in-memory data store that you control.
 
